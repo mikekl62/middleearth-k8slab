@@ -1,0 +1,58 @@
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#  name: fio
+# spec:
+#  restartPolicy: Never
+#  containers:
+#  - name: perfrunner
+#    image: openebs/tests-fio
+#    command: ["/bin/bash"]
+#    args: ["-c", "while true ;do sleep 50; done"]
+#    volumeMounts:
+#       - mountPath: /datadir
+#         name: fio-vol
+#    tty: true
+#  volumes:
+#  - name: fio-vol
+#    persistentVolumeClaim:
+#      claimName: pvc-localpv-lvm
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-localpv-lvm
+spec:
+  volumes:
+  - name: local-lvm
+    persistentVolumeClaim:
+      claimName: pvc-localpv-lvm
+  containers:
+  - name: hello-container
+    image: busybox
+    command:
+       - sh
+       - -c
+       - 'while true; do echo "`date` [`hostname`] Hello from OpenEBS Local PV." >> /mnt/store/greet.txt; sleep $(($RANDOM % 5 + 300)); done'
+    volumeMounts:
+    - mountPath: /mnt/store
+      name: local-lvm
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-local-hostpath-pod
+spec:
+  volumes:
+  - name: local-storage
+    persistentVolumeClaim:
+      claimName: pvc-localpv-hostpath
+  containers:
+  - name: hello-container
+    image: busybox
+    command:
+       - sh
+       - -c
+       - 'while true; do echo "`date` [`hostname`] Hello from OpenEBS Local PV." >> /mnt/store/greet.txt; sleep $(($RANDOM % 5 + 300)); done'
+    volumeMounts:
+    - mountPath: /mnt/store
+      name: local-storage

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+LOOPDEV=/dev/loop0
+DISKIMG=/var/opt/openebs/disk.img
+
+if [ -e "$DISKIMG" ]; then
+    sudo losetup $LOOPDEV $DISKIMG
+fi
+
+exit 0
