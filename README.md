@@ -24,3 +24,16 @@ This repo is a playground where I keep notes, scripts, manifests and other artfa
 * SSH service with password authentication
 * Raspberry Pi Connect disabled
 
+## Software
+
+* Container runtime (CRI)
+  * containerd
+  * runc
+  * CNI plugins
+* Kubernetes
+  * kubeadm
+  * kubelet
+  * kubectl
+* Storage and networking
+  * OpenEBS
+  * Calico
