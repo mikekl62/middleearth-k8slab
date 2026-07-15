@@ -13,3 +13,14 @@ This repo is a playground where I keep notes, scripts, manifests and other artfa
 ## Operating system
 
 * Raspberry Pi OS Lite
+
+### OS image customizatios
+
+* City 'Stockholm'
+* Time zone 'Europe/Stockholm'
+* Keyboard layout 'se'
+* Wireless networking disabled
+* Local user 'pi'
+* SSH service with password authentication
+* Raspberry Pi Connect disabled
+
