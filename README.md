@@ -7,12 +7,12 @@ In my current role as a developer of automation solutions based on VMware Aria A
 ## Hardware bill of materials
 
 * 4 Raspberry Pi 5, 4 GB
-*	4 SD cards for storage, 64 GB 
-*	4 Waveshare PoE hats
-*	Ubiquiti UniFi Switch Lite 16 PoE
-  *	or any other PoE switch with at least 20 watt power budget
-*	DeskPi RackMate T0 4U 10 inch rack
-  *	Not really needed, but it makes the lab environment free from cable clutter
+* 4 SD cards for storage, 64 GB 
+* 4 Waveshare PoE hats
+* Ubiquiti UniFi Switch Lite 16 PoE
+    * or any other PoE switch with at least 20 watt power budget
+* DeskPi RackMate T0 4U 10 inch rack
+    * Not really needed, but it makes the lab environment free from cable clutter
 
 __Note__ that this hardware setup lacks a decent storage solution for persistent volumes. OpenEBS comes with Mayastor, but setting up replicated storage requires more RAM in the Pi nodes (8 GB or more) to get acceptable performance. Also, using OpenEBS Local PV on the SD cards is not the best, but it will be good enough for now.
 
