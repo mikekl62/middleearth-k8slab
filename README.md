@@ -49,4 +49,4 @@ __Note__ that this hardware setup lacks a decent storage solution for persistent
 * [piyushsachdeva/CKA-2024](https://github.com/piyushsachdeva/CKA-2024)
 * [Kuberbetes Documentation](https://kubernetes.io/docs/home)
 * [OpenEBS Documentation](https://openebs.io/docs/)
-* [Calico Documentation]([https://docs.tigera.io/calico/latest/about)
+* [Calico Documentation](https://docs.tigera.io/calico/latest/about)
