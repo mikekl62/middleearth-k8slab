@@ -6,15 +6,28 @@
 # To be executed on each worker node.
 ############################################
 
+########################################
+# 1 - Ensure global variables are loaded
+########################################
+
+# The directory of the current script is retrieved to ensure
+# portability, then we CD into that directory to ensure we are
+# the git repo tree.
+
+if [ -z "${REPO_ROOT+x}" ]; then
+    DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    cd $DIR && source 00-global-vars.sh
+fi
+
 ############################
-# 1 - Install LVM2 utilities
+# 2 - Install LVM2 utilities
 ############################
 
 sudo apt update
 sudo apt install lvm2
 
 #######################################
-# 2 - Load device mapper snashot module
+# 3 - Load device mapper snashot module
 #######################################
 
 # Make module loading persistent across reboots
@@ -26,17 +39,28 @@ EOF
 sudo modprobe dm-snapshot
 
 ###########################################
-# 3 - Create a LVM volume group for OpenEBS
+# 4 - Create a LVM volume group for OpenEBS
 ###########################################
 
 # Create a 10G disk image and loopback device
-sudo truncate -s 10240M /var/opt/openebs/disk.img
-sudo losetup /dev/loop0 /var/opt/openebs/disk.img
+sudo truncate -s 10240M $OPENEBS_DISK_IMAGE
+sudo losetup $OPENEBS_LOOP_DEV $OPENEBS_DISK_IMAGE
 
 # Create a volume group
-sudo pvcreate /dev/loop0
-sudo vgcreate vg_localpv_lvm /dev/loop0
+sudo pvcreate $OPENEBS_LOOP_DEV
+sudo vgcreate $OPENEBS_VOLUME_GROUP $OPENEBS_LOOP_DEV
 
-# Use rc.local to recreate loopback device after reboot
-sudo cp scripts/rc.local /etc
-sudo cp scripts/rc.local.service /etc/systemd/system
+################################################
+# 5 - Recreation of loopback device after reboot
+################################################
+
+sudo cp $REPO_ROOT/assets/openebs-backing-storage.sh /etc/init.d
+sudo chmod 755 /etc/init.d/openebs-backing-storage.sh
+
+sudo cp $REPO_ROOT/assets/openebs-backing-storage.service /etc/systemd/system
+sudo chmod 644 /etc/systemd/system/openebs-backing-storage.service
+
+sudo ln /etc/init.d/openebs-backing-storage.sh /etc/rc3.d/S02openebs
+
+sudo systemctl daemon-reload
+sudo systemctl enable openebs-backing-storage.service
