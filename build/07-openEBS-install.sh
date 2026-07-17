@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#####################################
+################################
 # Install OpenEBS
 #
-# To be executed on each worker node.
-#####################################
+# To be executed on master node.
+################################
 
 # Setup helm repository
 helm repo add openebs https://openebs.github.io/openebs
