@@ -60,7 +60,7 @@ sudo chmod 755 /etc/init.d/openebs-backing-storage.sh
 sudo cp $REPO_ROOT/assets/openebs-backing-storage.service /etc/systemd/system
 sudo chmod 644 /etc/systemd/system/openebs-backing-storage.service
 
-sudo ln /etc/init.d/openebs-backing-storage.sh /etc/rc3.d/S02openebs
+sudo ln -s ../init.d/openebs-backing-storage.sh /etc/rc3.d/S02openebs
 
 sudo systemctl daemon-reload
 sudo systemctl enable openebs-backing-storage.service
