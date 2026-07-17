@@ -2,6 +2,8 @@
 
 ####################################################################
 # Cluster rename
+#
+# This version of the script DOES NOT work fully. DO NOT use it.
 # 
 # When the lab cluster was bootstrapped no custom cluster name was
 # provided, which means that the default name 'kubernetes' was used. 
