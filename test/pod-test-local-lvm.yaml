@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test-localpv-lvm
+spec:
+  volumes:
+    - name: local-lvm
+      persistentVolumeClaim:
+        claimName: pvc-localpv-lvm
+  containers:
+    - name: hello-container
+      image: busybox
+      command:
+        - sh
+        - -c
+        - 'mkdir -p /mnt/store/pod-test-localpv-lvm && while true; do echo "`date` [`hostname`] Hello from OpenEBS Local PV." >> /mnt/store/pod-test-localpv-lvm/greet.txt; sleep $(($RANDOM % 5 + 300)); done'
+      volumeMounts:
+        - mountPath: /mnt/store
+          name: local-lvm
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+        limits:
+          cpu: 200m
+          memory: 200Mi
