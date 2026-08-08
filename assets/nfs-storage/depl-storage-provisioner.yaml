@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-provisioner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: storage-provisioner
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: storage-provisioner
+    spec:
+      serviceAccountName: storage-provisioner
+      containers:
+        - name: storage-provisioner
+          image: registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 100m
+            limits:
+              memory: 128Mi
+              cpu: 200m
+          volumeMounts:
+            - name: nfs-kubestor
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: k8s-sigs.io/nfs-subdir-external-provisioner
+            - name: NFS_SERVER
+              value: 192.168.2.2
+            - name: NFS_PATH
+              value: /var/nfs/shared/kubestor
+      volumes:
+        - name: nfs-kubestor
+          nfs:
+            server: 192.168.2.2
+            path: /var/nfs/shared/kubestor

@@ -1,0 +1,15 @@
+#
+# This is a sample PersistentVolumeClaim (PVC) manifest for testing
+# dynamic provisioning of NFS storage in the kubernetes lab environment.
+#
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-nfs-storage
+spec:
+  storageClassName: nfs-standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Mi
