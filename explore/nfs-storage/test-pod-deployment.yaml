@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: stateful-pod-pvc
+  labels:
+    app: stateful-pod-test
+spec:
+  storageClassName: nfs-standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: stateful-pod
+spec:
+  selector:
+    matchLabels:
+      app: stateful-pod-test
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stateful-pod-test
+    spec:
+      containers:
+        - name: greeter
+          image: busybox
+          command:
+            - /bin/sh
+          args:
+            - -c
+            - 'while true; do echo "`date` [`hostname`] Hello from test pod." >> /mnt/greet.txt; sleep $(($RANDOM % 5 + 300)); done'
+          volumeMounts:
+            - mountPath: /mnt
+              name: nfs-pvc
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+      volumes:
+        - name: nfs-pvc
+          persistentVolumeClaim:
+            claimName: stateful-pod-pvc
