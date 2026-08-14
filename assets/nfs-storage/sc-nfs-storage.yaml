@@ -4,6 +4,6 @@ metadata:
   name: nfs-standard
 parameters:
   archiveOnDelete: "false"
-  pathPattern: ${.PVC.namespace}-${.PVC.name}
+  pathPattern: "${.PVC.namespace}/${.PVC.labels.app}/${.PVC.name}"
 provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
 volumeBindingMode: WaitForFirstConsumer
